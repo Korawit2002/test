@@ -1,0 +1,267 @@
+const express = require("express");
+const router = express.Router();
+
+//const {createEvent,listEvent,readtEvent,updateEvent,removeEvent } = require('../controllers1111/event');
+//const { emp_register,userlogin } = require("../controllers/auth");
+const {
+  provinces,
+  amphures,
+  tombons,
+  zipcode
+} = require("../controllers/locations");
+
+// const {structure} = require("../controllers/structure");
+// const {create_menu,create_sub_menu,create_child_menu,menuitems} = require("../controllers/menu_items");
+
+
+router.get("/api/v1/provinces", provinces);
+/**
+ * @swagger
+ * /api/v1/provinces:
+ *   get:
+ *     summary: Provinces.
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       code:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 10
+ *                       id:
+ *                         type: integer
+ *                         example: 10
+ *                       name_en:
+ *                         type: string
+ *                         example: 
+ *                       name_th:
+ *                         type: string
+ *                         example: กรุงเทพมหานคร
+ */
+
+router.get("/api/v1/amphures/:province_id", amphures);
+/**
+ * @swagger
+ * /api/v1/amphures/{province_id}:
+ *   get:
+ *     summary: Amphures.
+ *     #description: Retrieve a single JSONPlaceholder user. Can be used to populate a user profile when prototyping or testing an API.
+ *     parameters:
+ *       - in: path
+ *         name: province_id
+ *         required: true
+ *         description: รหัสจังหวัด
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A single user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     code:
+ *                       type: string
+ *                       example: 1018
+ *                     id:
+ *                       type: string
+ *                       example: 1018
+ *                     name_th:
+ *                       type: string
+ *                       example: คลองสาน
+ *                     province_id:
+ *                       type: string
+ *                       example: 10
+ 
+*/
+
+router.get("/api/v1/tombons/:amphure_id", tombons);
+/**
+ * @swagger
+ * /api/v1/tombons/{amphure_id}:
+ *   get:
+ *     summary: Tombons.
+ *     #description: Retrieve a single JSONPlaceholder user. Can be used to populate a user profile when prototyping or testing an API.
+ *     parameters:
+ *       - in: path
+ *         name: amphure_id
+ *         required: true
+ *         description: รหัสอำเภอ
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A single user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     amphure_id:
+ *                       type: string
+ *                       example: 1018
+ *                     id:
+ *                       type: string
+ *                       example: 101804
+ *                     name_th:
+ *                       type: string
+ *                       example: คลองต้นไทร
+ *                     zip_code:
+ *                       type: string
+ *                       example: 10600
+*/
+
+router.get("/api/v1/zipcode/:id", zipcode);
+/**
+ * @swagger
+ * /api/v1/zipcode/{id}:
+ *   get:
+ *     summary: zipcode.
+ *     #description: Retrieve a single JSONPlaceholder user. Can be used to populate a user profile when prototyping or testing an API.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: รหัสตำบล
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A single user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     amphure_id:
+ *                       type: string
+ *                       example: 1018
+ *                     id:
+ *                       type: string
+ *                       example: 101804
+ *                     name_th:
+ *                       type: string
+ *                       example: คลองต้นไทร
+ *                     zip_code:
+ *                       type: string
+ *                       example: 10600
+*/
+
+
+// router.post("/api/v1/create_menu",create_menu);
+
+//  router.post("/api/v1/menuitems",menuitems);
+//  router.get("/api/v1/menuitems",menuitems);
+
+//  router.post("/api/v1/create_sub_menu",create_sub_menu);
+//  router.post("/api/v1/create_child_menu",create_child_menu);
+
+
+// router.get("/api/v1/person_type", person_type);
+// router.get("/api/v1/juristic/:person_type_id", juristic);
+// router.get("/api/v1/options_payment", options_payment);
+// router.get("/api/v1/options_billing", options_billing);
+// router.get("/api/v1/customer_group/:id", customer_group);
+// router.get("/api/v1/list_customer_group/:id", list_customer_group);
+// router.post("/api/v1/group_details", group_details);
+// router.get("/api/v1/show_customer_group/:id", show_customer_group);
+// router.delete("/api/v1/remov_group_customer/:id", remov_group_customer);
+
+// router.get("/api/v1/project_list/:id", project_list);
+// router.post("/api/v1/create_project", create_project);
+// router.get("/api/v1/remov_project/:id", remov_project);
+
+// router.get("/api/v1/list_groups/:id", list_groups);
+
+
+// router.post("/api/v1/create_contacts", create_contacts);
+// router.get("/api/v1/contact_list/:id", contact_list);
+// router.get("/api/v1/remov_contact/:id", remov_contact);
+
+
+// router.post("/api/v1/create_document",create_document);
+// router.get("/api/v1/document_delivery_list/:id", document_delivery_list);
+// router.get("/api/v1/remov_document/:id", remov_document);
+// router.post("/api/v1/upload_file_documentdelivery", upload_document,upload_file_documentdelivery);
+
+
+// router.post("/api/v1/create_shipping", create_shipping);//upload_shipping,
+// router.get("/api/v1/shipping_list/:id", shipping_list);
+// router.get("/api/v1/remov_shipping/:id", remov_shipping);
+// router.get("/api/v1/delete_file_shipping/:id", delete_file_shipping);
+// router.post("/api/v1/upload_file_shipping", upload_shipping,upload_file_shipping);
+
+
+// //restfull api
+// router.get("/api/v1/company",company);
+// router.get("/api/v1/company_project/:partners_id",company_project);
+// router.get("/api/v1/company_contact/:partners_id",company_contact);
+
+// router.post("/api/v1/upload_company_photo", upload,upload_company_photo);
+// router.post("/api/v1/upload_company_map", upload_map,upload_company_map);
+// router.post("/api/v1/duplicate",duplicate);
+
+
+// router.get("/api/v1/country", country);
+
+// router.get("/api/v1/companyphots_list/:id", companyphots_list);
+// router.get("/api/v1/companymap_list/:id", companymap_list);
+
+
+// router.get("/api/v1/delete_imgcompany/:id", delete_imgcompany);
+// router.get("/api/v1/delete_companymap/:id", delete_companymap);
+
+
+// router.get("/api/v1/delete_file_certificate/:id", delete_file_certificate);
+// router.get("/api/v1/delete_file_registration/:id", delete_file_registration);
+// router.get("/api/v1/delete_file_seal/:id", delete_file_seal);
+
+// router.post("/api/v1/upload_file_certificate", upload_certificate,upload_file_certificate);
+
+// router.post("/api/v1/upload_file_registration", upload_registration,upload_file_registration);
+// router.post("/api/v1/upload_file_seal", upload_seal,upload_file_seal);
+
+
+// router.post("/api/v1/upload_file_payment", upload_payment,upload_file_payment);
+// router.get("/api/v1/delete_file_payment/:id", delete_file_payment);
+// router.get("/api/v1/filepayment_list/:id", filepayment_list);
+
+// router.get("/api/v1/delete_imgdocument/:id", delete_imgdocument);
+// router.get("/api/v1/all_customer", all_customer);
+
+// router.post("/api/v1/create_document_delivery", create_document_delivery);
+// router.get("/api/v1/billing/:id", billing);
+// router.post("/api/v1/update_partners", update_partners);
+// router.post("/api/v1/register_client", register_client);
+// router.get("/api/v1/confirm_customer/:id", confirm_customer);
+// router.post("/api/v1/update_password", update_password);
+// router.post("/api/v1/checkJuristic", checkJuristic);
+
+
+// router.delete("/api/v1/delete_partners", delete_partners);
+
+// router.get("/api/v1/department", department);
+// router.get("/api/v1/division", division);
+// router.get("/api/v1/dbd/:juristic",dbd);
+
+
+module.exports = router;
