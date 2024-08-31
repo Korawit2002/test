@@ -49,12 +49,12 @@ const AuthLogin = ({ ...others }) => {
       <Grid container direction="column" justifyContent="center" spacing={2}>
         <Grid item xs={12} container>
           <Box sx={{ mb: 4 }}>
-            
+
             <Typography variant="subtitle1">
               {/* <Typography variant="subtitle1">หากคุณยังไม่เป็นสามาชิกสามารถ</Typography> */}
-              หากคุณยังไม่เป็นสมาชิกสามารถ 
+              หากคุณยังไม่เป็นสมาชิกสามารถ
               <Link href="/register/vet/" color="primary">
-              สมัครสมาชิก
+                สมัครสมาชิก
               </Link>{' '}
             </Typography>
           </Box>
@@ -97,17 +97,27 @@ const AuthLogin = ({ ...others }) => {
             const response = await axios.post('https://student.crru.ac.th/651463014/api/login.php', formData);
             console.log('Login response:', response.data);
         
-            // แยกส่วน JSON จากการตอบกลับ
-            const jsonStartIndex = response.data.indexOf('{');
-            const jsonData = JSON.parse(response.data.slice(jsonStartIndex));
+            // ตรวจสอบว่าข้อมูลที่ตอบกลับเป็นอ็อบเจ็กต์ JSON
+            const jsonData = response.data;
         
             if (jsonData && jsonData.message === "Login successful") {
               setStatus({ success: true });
-              // เก็บข้อมูลผู้ใช้ใน localStorage
-              localStorage.setItem('user_id', jsonData.user.user_id);
-              localStorage.setItem('username', jsonData.user.username);
-              // ถ้าคุณใช้ react-router สำหรับการนำทาง คุณสามารถใช้บรรทัดนี้
-              navigate('/account');
+        
+              if (jsonData.user) {
+                // เก็บข้อมูลผู้ใช้ใน localStorage
+                localStorage.setItem('user_id', jsonData.user.user_id);
+                localStorage.setItem('username', jsonData.user.username);
+        
+                // นำทางตามบทบาทของผู้ใช้
+                if (jsonData.user.role === 'admin') {
+                  navigate('/account'); // เปลี่ยนเส้นทางไปยังหน้าแดชบอร์ดของผู้ดูแล
+                } else {
+                  navigate('/vet'); // เปลี่ยนเส้นทางไปยังหน้าแดชบอร์ดของผู้ใช้
+                }
+              } else {
+                setStatus({ success: false });
+                setErrorMessage('User data is missing in the response.');
+              }
             } else {
               setStatus({ success: false });
               setErrorMessage(jsonData.message || 'Invalid credentials.');
@@ -120,6 +130,7 @@ const AuthLogin = ({ ...others }) => {
             setSubmitting(false);
           }
         }}
+             
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>

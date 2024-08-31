@@ -8,12 +8,12 @@ const Performance = () => {
   useEffect(() => {
     axios.get('https://student.crru.ac.th/651463014/API/maintenancerequests.php')
       .then((response) => {
-        // ตรวจสอบข้อมูลที่ได้รับจาก API
-        console.log(response.data); // ดูข้อมูลใน Console
-        if (response.data && Array.isArray(response.data.succeed)) {
+        console.log('API Response:', response.data); // ดูข้อมูลใน Console
+        if (response.data && response.data.succeed && Array.isArray(response.data.succeed)) {
           setMaintenanceRequests(response.data.succeed);
         } else {
-          setMaintenanceRequests([]);
+          console.log('Data format issue or empty data.');
+          setMaintenanceRequests([]); // ตั้งค่าเป็น array ว่างถ้ามีข้อผิดพลาด
         }
       })
       .catch((error) => {
@@ -36,7 +36,7 @@ const Performance = () => {
             }}
           >
             <List>
-              {maintenanceRequests.length > 0 ? (
+              {maintenanceRequests && maintenanceRequests.length > 0 ? (
                 maintenanceRequests.map((request) => (
                   <ListItem key={request.request_id}>
                     <ListItemText
