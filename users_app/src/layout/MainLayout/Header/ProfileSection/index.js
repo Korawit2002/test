@@ -40,7 +40,7 @@ import User1 from 'assets/images/users/user-round.svg';
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
 
 // ==============================|| PROFILE MENU ||============================== //
-import { logout, get_vet_by_id } from 'component/function/auth';
+import { logout} from 'component/function/auth';
 const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
@@ -83,7 +83,10 @@ const ProfileSection = () => {
 
   const handleLogout = async () => {
     try {
-      await logout();
+
+      localStorage.removeItem('role');
+      localStorage.removeItem('username');
+      localStorage.removeItem('user_id');
       navigate('/');
     } catch (error) {
       console.error('Logout failed:', error);

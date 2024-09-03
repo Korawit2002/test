@@ -330,7 +330,6 @@ const Tef = () => {
           value: gender,
           label: gender === 'male' ? 'Male' : gender === 'female' ? 'Female' : 'Prefer not to say'
         }));
-
         setGenderOptions(genderOptions);
       } catch (error) {
         console.error('Failed to fetch user data', error);
@@ -350,10 +349,9 @@ const Tef = () => {
     setSubmissionAttempted(true);
 
     const requiredFields = [
-      'first_name_th',
-      'last_name_th',
-      'first_name_en',
-      'last_name_en',
+      'first_name',
+      'last_name',
+      'nickname',
       'date_of_birth',
       'gender',
       'phone_number',

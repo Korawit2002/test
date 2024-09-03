@@ -56,6 +56,7 @@ const ViewVeterinarian = () => {
 
   const userId = localStorage.getItem('user_id');
   console.log('User ID:', userId);
+
   
   useEffect(() => {
     if (userId) {
@@ -65,6 +66,7 @@ const ViewVeterinarian = () => {
       setLoading(false);
     }
   }, [userId]);
+  
 
   const fetchVeterinarianData = async (userId) => {
     try {
@@ -91,41 +93,6 @@ const ViewVeterinarian = () => {
     }
   };
 
-
-
-  // const getStatusButtonProps = (status) => {
-  //   switch (status) {
-  //     case 'Active':
-  //       return { text: 'Active', color: '#52C41A' };
-  //     case 'Expiring Soon':
-  //       return { text: 'Expiring Soon', color: '#FFA500' };
-  //     case 'Inactive':
-  //       return { text: 'Inactive', color: '#FF0000' };
-  //     default:
-  //       return { text: 'Unknown', color: '#9E9E9E' };
-  //   }
-  // };
-
-  // console.log(formData.check_renew);
-
-  // const handleStatusButtonClick = () => {
-  //   if (formData.status_renew === 'Expiring Soon' || formData.status_renew === 'Inactive') {
-  //     navigate('/account/renew');
-  //   }
-  // };
-  const getStatusButtonProps = (status) => {
-    switch (status) {
-      case 'Active':
-        return { text: 'Active', color: '#52C41A' };
-      case 'Expiring Soon':
-        return { text: 'Expiring Soon', color: '#FFA500' };
-      case 'Inactive':
-        return { text: 'Inactive', color: '#FF0000' };
-      default:
-        return { text: 'Unknown', color: '#9E9E9E' };
-    }
-  };
-  
   console.log(formData.check_renew);
   
   const handleStatusButtonClick = () => {
@@ -362,27 +329,7 @@ const ViewVeterinarian = () => {
                 <Typography variant="h6" sx={{ fontWeight: 700, fontSize: { xs: 14, sm: 16 } }}>
                   Personal Information (ข้อมูลส่วนตัว)<span style={{ color: '#FF0000' }}>*</span>
                 </Typography>
-                {formData.status_renew && (
-                  <Button
-                  variant="contained"
-                  onClick={handleStatusButtonClick}
-                  sx={{
-                    width: { xs: '100%', sm: 'auto' },
-                    minWidth: '150px',
-                    height: '40px',
-                    fontSize: { xs: '14px', sm: '16px' },
-                    padding: '8px 20px',
-                    backgroundColor: getStatusButtonProps(formData.status_renew).color,
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: getStatusButtonProps(formData.status_renew).color,
-                      opacity: 0.9
-                    }
-                  }}
-                >
-                  {getStatusButtonProps(formData.status_renew).text}
-                </Button>
-                )}
+
               </Stack>
             </Grid>
 
@@ -395,7 +342,7 @@ const ViewVeterinarian = () => {
                     disabled
                     name="first_name_th"
                     value={formData?.first_name || ''}
-                    label="First Name (ชื่อภาษาไทย)"
+                    label="First Name (ชื่อ)"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -404,34 +351,7 @@ const ViewVeterinarian = () => {
                     disabled
                     name="last_name_th"
                     value={formData.last_name || ''}
-                    label="Last Name (นามสกุลภาษาไทย)"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    {...commonTextFieldProps}
-                    disabled
-                    name="vet_id"
-                    value={formData.vet_id || 'The ID will be shown after approval.'}
-                    label="VET. ID (เลขประจำตัวสัตวแพทย์)"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    {...commonTextFieldProps}
-                    disabled
-                    name="first_name_en"
-                    value={formData.first_name_en || ''}
-                    label="First Name (ชื่อภาษาอังกฤษ)"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    {...commonTextFieldProps}
-                    disabled
-                    name="last_name_en"
-                    value={formData.last_name_en || ''}
-                    label="Last Name (นามสกุลภาษาอังกฤษ)"
+                    label="Last Name (นามสกุล)"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -634,263 +554,11 @@ const ViewVeterinarian = () => {
                     </Typography>
                   </Box>
                 </Grid>
-
-                <Grid item xs={12} mt={2}>
-                  <Typography style={{ width: '100%', height: '100%' }}>
-                    <span style={{ color: 'black', fontSize: 16, fontFamily: 'Sarabun', fontWeight: 700, wordWrap: 'break-word' }}>
-                      Veterinary License <br />
-                      ใบอนุญาตเป็นผู้ประกอบวิชาชีพสัตวแพทย์
-                    </span>
-                    <span style={{ color: '#FF0000', fontSize: 16, fontFamily: 'Sarabun', fontWeight: 700, wordWrap: 'break-word' }}>
-                      *
-                    </span>
-                  </Typography>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Box sx={{ width: '100%', height: '2px', backgroundColor: '#0E5F9C' }} />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    {...commonTextFieldProps}
-                    disabled
-                    name="practitioner"
-                    value={formData.practitioner || ''}
-                    label="Veterinary Practitioner (เลขที่ใบประกอบวิชาชีพ)"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    {...commonTextFieldProps}
-                    disabled
-                    name="expiration_practitioner"
-                    value={formData.expiration_practitioner || ''}
-                    label="Expiration (วันหมดอายุ)"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '10px',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      '&:hover': {
-                        backgroundColor: 'rgba(0, 0, 0, 0.04)'
-                      }
-                    }}
-                    onClick={() => {
-                      if (formData.license?.filepath) {
-                        const fileExtension = formData.license.filename.split('.').pop().toLowerCase();
-                        openViewer({
-                          filepath: formData.license.filepath,
-                          type: fileExtension
-                        });
-                      }
-                    }}
-                  >
-                    <InputAdornment position="start" sx={{ marginRight: '8px' }}>
-                      {formData.license?.filename ? getFileIcon(formData.license.filename) : <InsertDriveFileIcon />}
-                    </InputAdornment>
-                    <Typography
-                      sx={{
-                        fontSize: '16px',
-                        flexGrow: 1,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}
-                    >
-                      {formData.license?.filename || 'ไม่พบไฟล์'}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
-                  <Box display="flex" alignItems="flex-start">
-                    <Checkbox checked={true} disabled sx={{ mt: -0.7 }} />
-                    <Typography variant="body2">
-                      I agree to TEF Membership Terms and Conditions, to view the full terms and conditions{' '}
-                      <a href="#" style={{ color: 'blue', textDecoration: 'underline' }}>
-                        click here
-                      </a>
-                      . TEF will do spot checks to verify the details declared are correct.
-                      <br />
-                      ฉันยอมรับตามข้อกำหนดและเงื่อนไขสมาชิก TEF ดูรายละเอียดเพิ่มเติม
-                      <a href="#" style={{ color: 'blue', textDecoration: 'underline' }}>
-                        คลิกที่นี่
-                      </a>
-                      <br />
-                      ทางสมาคมกีฬาขี่ม้าแห่งประเทศไทยจะดำเนินการตรวจสอบข้อมูลเพื่อยืนยันความถูกต้องของข้อมูลที่ได้รับ
-                    </Typography>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12} mt={2}>
-                  <Typography sx={{ fontSize: 14 }}>
-                    Change email address เปลี่ยนรหัสผ่าน <span style={{ color: '#FF0000' }}>*</span>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Box sx={{ width: '100%', height: '2px', backgroundColor: '#0E5F9C' }} />
-                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12} mt={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', maxWidth: 600, width: '80%' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 600, width: '100%' }}>
-                  <Box>
-                    <Typography variant="body1" sx={{ mb: 1 }}>
-                      Old Password
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      // type="password"
-                      type="text"
-                      variant="outlined"
-                      name="oldPassword"
-                      value={passwordData.oldPassword}
-                      onChange={handlePasswordChange}
-                      error={!!passwordErrors.oldPassword}
-                      helperText={passwordErrors.oldPassword}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography variant="body1" sx={{ mb: 1 }}>
-                      New Password
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      // type="password"
-                      type="text"
-                      variant="outlined"
-                      name="newPassword"
-                      value={passwordData.newPassword}
-                      onChange={handlePasswordChange}
-                      error={!!passwordErrors.newPassword}
-                      helperText={passwordErrors.newPassword}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography variant="body1" sx={{ mb: 1 }}>
-                      Re-enter Password
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      // type="password"
-                      type="text"
-                      variant="outlined"
-                      name="confirmPassword"
-                      value={passwordData.confirmPassword}
-                      onChange={handlePasswordChange}
-                      error={!!passwordErrors.confirmPassword}
-                      helperText={passwordErrors.confirmPassword}
-                    />
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} sx={{ mt: 5, mb: 5 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
-                  variant="contained"
-                  onClick={handleChangePassword}
-                  disabled={changePasswordLoading}
-                  sx={{
-                    width: '180px',
-                    height: '40px',
-                    color: '#FFFFFF',
-                    backgroundColor: '#0E5F9C',
-                    '&:hover': {
-                      backgroundColor: '#0E5F9C'
-                    },
-                    textTransform: 'none',
-                    fontSize: '14px',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}
-                >
-                  {changePasswordLoading ? <CircularProgress size={24} color="inherit" /> : 'Change Password'}
-                </Button>
-              </Box>
             </Grid>
           </Grid>
         </Box>
       </Box>
-      <Dialog
-        open={openSuccessDialog}
-        onClose={() => setOpenSuccessDialog(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        PaperProps={{
-          sx: {
-            borderRadius: '10px',
-            padding: '20px',
-            width: '600px'
-          }
-        }}
-      >
-        <DialogTitle
-          id="alert-dialog-title"
-          sx={{
-            fontSize: '16px',
-            color: '#003366',
-            fontWeight: 'bold',
-            paddingBottom: 0
-          }}
-        >
-          <Grid container>
-            <Grid item xs={12} textAlign="left">
-              Password Changed Successfully
-            </Grid>
-            <Grid item xs={12}>
-              <Box sx={{ width: '100%', height: '2px', backgroundColor: '#0E5F9C', marginTop: '10px' }} />
-            </Grid>
-          </Grid>
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText
-            id="alert-dialog-description"
-            sx={{
-              color: '#003366',
-              marginTop: '22px',
-              marginBottom: '24px',
-              textAlign: 'center',
-              fontSize: '16px'
-            }}
-          >
-            Your password has been successfully updated.
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions sx={{ justifyContent: 'center', paddingBottom: '20px' }}>
-          <Button
-            onClick={() => setOpenSuccessDialog(false)}
-            variant="contained"
-            sx={{
-              backgroundColor: '#003366',
-              color: 'white',
-              padding: '10px 30px',
-              fontWeight: 'bold',
-              '&:hover': {
-                backgroundColor: '#002244'
-              }
-            }}
-          >
-            CLOSE
-          </Button>
-        </DialogActions>
-      </Dialog>
-      {/* Viewer component */}
-      {showViewer &&
-        (viewerFile.type === 'pdf' ? (
-          <PdfViewer src={viewerFile.url} onClose={closeViewer} />
-        ) : (
-          <ImageViewer src={viewerFile.url} alt="File Preview" onClose={closeViewer} />
-        ))}
     </Paper>
   );
 };

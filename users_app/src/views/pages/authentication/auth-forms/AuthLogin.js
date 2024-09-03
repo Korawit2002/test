@@ -90,47 +90,65 @@ const AuthLogin = ({ ...others }) => {
           setErrorMessage('');
           setAttemptedSubmit(true);
           try {
+            const API_URL = 'https://student.crru.ac.th/651463014/api/login.php';
             const formData = new FormData();
             formData.append('username', values.username);
             formData.append('password', values.password);
         
-            const response = await axios.post('https://student.crru.ac.th/651463014/api/login.php', formData);
+            // ส่งคำร้องขอ
+            const response = await axios.post(API_URL, formData, { timeout: 10000 });
             console.log('Login response:', response.data);
         
-            // ตรวจสอบว่าข้อมูลที่ตอบกลับเป็นอ็อบเจ็กต์ JSON
-            const jsonData = response.data;
-        
-            if (jsonData && jsonData.message === "Login successful") {
-              setStatus({ success: true });
-        
-              if (jsonData.user) {
-                // เก็บข้อมูลผู้ใช้ใน localStorage
-                localStorage.setItem('user_id', jsonData.user.user_id);
-                localStorage.setItem('username', jsonData.user.username);
-        
-                // นำทางตามบทบาทของผู้ใช้
-                if (jsonData.user.role === 'admin') {
-                  navigate('/account'); // เปลี่ยนเส้นทางไปยังหน้าแดชบอร์ดของผู้ดูแล
-                } else {
-                  navigate('/vet'); // เปลี่ยนเส้นทางไปยังหน้าแดชบอร์ดของผู้ใช้
+            // ตรวจสอบว่า response.data เป็นสตริงที่ขึ้นต้นด้วย 'succeed'
+            let jsonData;
+            if (typeof response.data === 'string' && response.data.startsWith('succeed')) {
+                // ตัด 'succeed' ออกและแปลงเป็น JSON
+                const jsonString = response.data.substring(7);
+                try {
+                    jsonData = JSON.parse(jsonString);
+                } catch (parseError) {
+                    console.error('JSON parsing error:', parseError);
+                    throw new Error('Invalid data format received from server');
                 }
-              } else {
-                setStatus({ success: false });
-                setErrorMessage('User data is missing in the response.');
-              }
             } else {
-              setStatus({ success: false });
-              setErrorMessage(jsonData.message || 'Invalid credentials.');
+                throw new Error('Invalid response format');
             }
-          } catch (error) {
+        
+            console.log("jsonData", jsonData);
+        
+            // ตรวจสอบสถานะการเข้าสู่ระบบ
+            if (jsonData?.message === "Login successful") {
+                setStatus({ success: true });
+        
+                // ตรวจสอบว่า jsonData.user มีค่า
+                if (jsonData.user) {
+                    // เก็บข้อมูลผู้ใช้ใน localStorage
+                    localStorage.setItem('user_id', jsonData.user.user_id ?? '');
+                    localStorage.setItem('username', jsonData.user.username ?? '');
+                    localStorage.setItem('role', jsonData.user.role ?? '');
+        
+                    // นำทางตามบทบาทของผู้ใช้
+                    if (jsonData.user.role === 'admin') {
+                        navigate('/account');
+                    } else {
+                        navigate('/account');
+                    }
+                } else {
+                    setStatus({ success: false });
+                    setErrorMessage('User data is missing in the response.');
+                }
+            } else {
+                setStatus({ success: false });
+                setErrorMessage(jsonData?.message || 'Invalid credentials.');
+            }
+        } catch (error) {
             console.error('Login error:', error);
             setStatus({ success: false });
             setErrorMessage('An error occurred during login. Please try again.');
-          } finally {
+        } finally {
             setSubmitting(false);
-          }
-        }}
-             
+        }          
+        }}     
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>

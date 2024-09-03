@@ -1,13 +1,18 @@
 import dashboard from './dashboard';
-import vetmenu from './vetmenu';
-// import pages from './pages';
-// import utilities from './utilities';
-// import other from './other';
-// import request from './request';
-// ==============================|| MENU ITEMS ||============================== //
+import user from './vetmenu';
 
-const menuItems = {
-  items: [dashboard]
-};
+const role = localStorage.getItem('role');
+
+let menuItems = {};
+
+if (role === 'admin') {
+    menuItems = {
+        items: [dashboard]
+    };
+} else if (role === 'user') {
+    menuItems = {
+        items: [user]
+    };
+}
 
 export default menuItems;
